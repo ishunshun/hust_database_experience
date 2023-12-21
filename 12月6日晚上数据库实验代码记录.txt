@@ -1,0 +1,67 @@
+1.select course.cno,cname,sno,grade
+from course left outer join sc on (course.cno=sc.cno);
+
+2.
+select sno,sname,sage
+from student
+where student.sage in (select sage from student where sname='张立');
+
+select x.sno,x.sname,x.sage
+from student x,student y
+where x.sage=y.sage and y.sname='张立';
+
+select x.sno,x.sname,x.sage
+from student x
+where exists (select * from student y where x.sage=y.sage and y.sname='张立');
+
+3.
+select student.sno,student.sname
+from student,sc
+where student.sno=sc.sno and sc.cno=3 and grade >=80 and grade<=89;
+
+4.
+select cno,cname
+from course 
+where cno in (select cno from sc where sno='200215122');
+
+思考题：
+select sc.cno,cname,grade
+from course,sc
+where course.cno=sc.cno and sc.sno='200215122';
+
+5.
+select x.sno,x.cno
+from sc x
+where grade+5<(select avg(grade) from sc y group by y.sno having x.sno=y.sno);
+
+6.
+select sno,sname,sage
+from student
+where sage<all(select x.sage from student x where x.ssex='男') and ssex='女';
+
+7.
+select sname,sdept
+from student
+where exists (select * from sc where student.sno=sno and sc.cno=2);
+
+8.
+update student
+set sage=sage+2
+where sno in(select sno
+from sc
+group by sno
+having avg(grade)<=89 and avg(grade)>=80);
+select * from student;
+
+9.
+insert
+into course
+values(8,'C语言',NULL,NULL);
+insert
+into course
+values(9,'人工智能',NULL,NULL);
+
+10.
+delete
+from course
+where cname='人工智能';

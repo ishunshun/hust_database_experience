@@ -1,0 +1,47 @@
+1.
+select sno,sname,sage
+from student;
+2.
+select *
+from student
+where sdept='CS";
+3.
+select sc.sno,sc.cno,sc.grade
+from sc
+where grade>=90 or grade<60;
+4.
+select student.sname,student,ssex,student.sage
+from student
+where sage<19 or sage>20;
+5.
+select sname,sdept
+from student
+where sdept in('MA',''IS);
+6.
+select cno,cname,ccredit
+from course
+where cname like '数据%';
+7.
+select sno,cno
+from student join course
+except
+select sno,cno
+from sc;
+8.
+select max(grade),min(grade),acg(grade)
+from sc
+where sno=200215121；
+9.
+select sno,grade
+from sc
+where cno=2
+order by grade;
+10.
+select sdept,avg(grade)
+from student
+group by sdept;
+11.
+select sdept,avg(sage)
+from student
+group by sdept
+having avg(sage)<=19;

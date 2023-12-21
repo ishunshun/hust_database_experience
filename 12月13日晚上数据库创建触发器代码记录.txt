@@ -1,0 +1,25 @@
+delimiter //
+create trigger scholar after update on sc
+for each row
+begin
+	declare newgrade int;
+	declare id varchar(9);
+	declare exist95 int;
+	set newgrade=new.grade;
+	set id=new.sno;
+	set exist95=0;
+	if newgrade>=95 then
+		update student
+		set scholarship='是'
+		where sno=id;
+	else
+		select count(*) into exist95 from sc where sno=id and grade>=95;
+		if exist95=0 then
+			update student
+			set scholarship='否'
+			where sno=id;
+		end if;
+	end if;
+end;
+//
+delimiter //

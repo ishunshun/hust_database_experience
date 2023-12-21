@@ -1,0 +1,55 @@
+1.
+create view CS_View
+as
+select *
+from student
+where sdept='CS';
+
+2.
+select CS_View.*
+from CS_View,sc
+where sc.sno=cs_view.sno and sc.cno=1;
+
+3.
+create view Is_view
+as
+select student.* from student,sc where sdept='IS' and student.sno=sc.sno and sc.grade>=80;
+
+4.select * from is_view;
+
+5.drop view is_view;
+
+11.drop trigger scholar;
+
+12.
+delimiter //
+create procedure avg_and_max ()
+begin
+select avg(grade),max(grade)
+from sc
+where sno in (select sno from student where sdept='CS');
+end//
+delimiter ;
+call avg_and_max();
+
+13.
+delimiter //
+create procedure all_grade(in stusno char(9))
+begin
+select student.sname,cname,grade
+from student,sc,course
+where student.sno=stusno and sc.sno=stusno and course.cno=sc.cno;
+end//
+
+14.
+delimiter //
+create function all_grades(stusno char(9))
+returns int
+READS SQL DATA
+begin
+create temporary table gradeall
+select sname,cname,grade
+from student,sc,course
+where student.sno=stusno and sc.sno=stusno and course.cno=sc.cno;
+return 0;
+end//
